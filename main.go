@@ -50,7 +50,7 @@ func proc(key string) error {
 			continue
 		}
 
-		var git Git
+		git := Git{Name: k}
 		for field, data := range m {
 			if field == "url" {
 				git.Url = data.(string)
@@ -58,10 +58,6 @@ func proc(key string) error {
 			}
 			if field == "path" {
 				git.Path = data.(string)
-				continue
-			}
-			if field == "name" {
-				git.Name = data.(string)
 				continue
 			}
 		}
