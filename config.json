@@ -1,0 +1,11 @@
+{
+    "team": ["server", "web", "app"],
+    "server": {
+        "xxx": {
+            "url" : "git@bitbucket.org:xxx/xxx.git",
+            "name": "xxx",
+            "path": "/Users/abc/work/gitbk"
+        }
+    }
+
+}
