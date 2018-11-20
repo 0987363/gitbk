@@ -4,3 +4,6 @@
 *.pyc
 main
 gitbk
+web*
+server*
+app*
