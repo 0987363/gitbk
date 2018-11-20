@@ -1,10 +1,14 @@
 {
-    "team": ["server", "web", "app"],
+    "team": {
+        "path": "/Users/abc/work/gitbk",
+        "name": ["server", "web", "app"]
+    },
     "server": {
-        "xxx": {
-            "url" : "git@bitbucket.org:xxx/xxx.git",
-            "path": "/Users/abc/work/gitbk"
-        }
+        "xxx": "git@bitbucket.org:xxx/xxx.git",
+        "yyy": "git@bitbucket.org:yyy/yyy.git"
+    },
+    "web": {
+        "xxx": "git@bitbucket.org:xxx/xxx.git",
+        "yyy": "git@bitbucket.org:yyy/yyy.git"
     }
-
 }

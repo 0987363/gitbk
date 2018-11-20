@@ -2,9 +2,10 @@ package main
 
 import (
 	"fmt"
+	"os"
 	"log"
-	"reflect"
 	"os/exec"
+	"time"
 
 	"github.com/spf13/viper"
 )
@@ -19,13 +20,20 @@ func main() {
 		log.Fatalf("Failed to load %s: %v", viper.ConfigFileUsed(), err)
 	} 
 
-	keys := viper.GetStringSlice("team")
+	keys := viper.GetStringSlice("team.name")
+	path := viper.GetString("team.path")
 	fmt.Println("Read team: ", keys)
 
-	for _, k := range keys {
-		proc(k)
-	}
+	t := time.Now().Format("20060102150405")
 
+	for _, k := range keys {
+		p := path + "/" + k + "-" + t
+		if err := os.Mkdir(p, 0666); err != nil {
+			log.Fatalf("Failed to mkdir %s: %v", viper.ConfigFileUsed(), err)
+		}
+
+		proc(k, p)
+	}
 }
 
 type Git struct {
@@ -34,32 +42,15 @@ type Git struct {
 	Name	string
 }
 
-func proc(key string) error {
-	config := viper.GetStringMap(key)
-	fmt.Println("Start team: ", key)
+func proc(key, path string) error {
+	config := viper.GetStringMapString(key)
+	fmt.Println("Start team: ", key, config)
 
 	for k, v := range config {
-		vo := reflect.ValueOf(v)
-		if vo.Kind() != reflect.Map {
-			continue
-		}
-
-		m, ok := v.(map[string]interface{})
-		if !ok {
-			fmt.Println("Convert map failed:", v)
-			continue
-		}
-
-		git := Git{Name: k}
-		for field, data := range m {
-			if field == "url" {
-				git.Url = data.(string)
-				continue
-			}
-			if field == "path" {
-				git.Path = data.(string)
-				continue
-			}
+		git := Git{
+			Name: k,
+			Path: path,
+			Url: v,
 		}
 		if !git.Verify() {
 			fmt.Printf("%s config invalid.\n", k)
