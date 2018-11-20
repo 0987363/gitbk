@@ -28,7 +28,7 @@ func main() {
 
 	for _, k := range keys {
 		p := path + "/" + k + "-" + t
-		if err := os.Mkdir(p, 0666); err != nil {
+		if err := os.Mkdir(p, 0700); err != nil {
 			log.Fatalf("Failed to mkdir %s: %v", viper.ConfigFileUsed(), err)
 		}
 
@@ -78,6 +78,7 @@ func (git *Git) Verify() bool {
 }
 
 func (git *Git) Run() error {
+	fmt.Println("Start git clone:", git.Url, git.Path + "/" +  git.Name)
 	cmd := exec.Command("git", "clone", "--depth=1", git.Url, git.Path + "/" +  git.Name)
 	log.Printf("Running command and waiting for it to finish...")
 	return cmd.Run()
