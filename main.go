@@ -16,6 +16,10 @@ func main() {
 	viper.SetConfigType("json")
 	viper.AddConfigPath(".")
 
+	if len(os.Args) > 1 {
+		viper.AddConfigPath(os.Args[1])
+	}
+
 	if err := viper.ReadInConfig(); err != nil {
 		log.Fatalf("Failed to load %s: %v", viper.ConfigFileUsed(), err)
 	} 
